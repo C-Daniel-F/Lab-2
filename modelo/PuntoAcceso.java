@@ -9,21 +9,15 @@ public class PuntoAcceso {
     private int capacidadMaximaPorHora;
     private EstadoPuntoAcceso estado;
 
-    public PuntoAcceso(String codigo, String nombre, String ubicacion, int capacidadMaximaPorHora, EstadoPuntoAcceso estado){
+    public PuntoAcceso(String codigo, String nombre, String ubicacion, int capacidadMaximaPorHora, EstadoPuntoAcceso estado) {
+        if (capacidadMaximaPorHora <= 0) {
+            throw new IllegalArgumentException("La capacidad debe ser mayor a 0.");
+        }
         this.codigo = codigo;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
+        this.capacidadMaximaPorHora = capacidadMaximaPorHora;
         this.estado = estado;
-
-        try{
-            this.capacidadMaximaPorHora = capacidadMaximaPorHora;
-
-            if (capacidadMaximaPorHora <= 0){
-                throw new IllegalArgumentException();
-            }
-        } catch (IllegalArgumentException error) {
-            System.out.println("Valor igual o a 0");
-        }
     }
 
     // getters
@@ -50,7 +44,10 @@ public class PuntoAcceso {
     public void setUbicacion(String ubicacion){
         this.ubicacion = ubicacion;
     }
-    public void setCapacidadMaximaPorHora(int capacidad){
+    public void setCapacidadMaximaPorHora(int capacidad) {
+        if (capacidad <= 0) {
+            throw new IllegalArgumentException("La capacidad debe ser mayor a 0.");
+        }
         this.capacidadMaximaPorHora = capacidad;
     }
     public void setEstado(EstadoPuntoAcceso estado){

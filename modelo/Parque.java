@@ -35,7 +35,7 @@ public class Parque {
 
     public PuntoAcceso obtenerPuntoAcceso(int posicion){
         try{
-            if (posicion < 0 || posicion > limiteAcceso) {
+            if (posicion < 0 || posicion >= limiteAcceso) {
                 throw new IllegalArgumentException();
             }
             return puntosAcceso[posicion];
@@ -46,32 +46,46 @@ public class Parque {
     }
 
     public void mostrarPuntosAcceso(){
-        for (int i = 0; i < limiteAcceso; i++) {
-            if (puntosAcceso[i] != null) {
-                System.out.println("Punto de Acceso ");
-                System.out.println(i);
-                System.out.println(", Posee:  ");
-                System.out.println(puntosAcceso[i]);
+        try{
+            for (int i = 0; i < limiteAcceso; i++) {
+                if (puntosAcceso[i] != null) {
+                    System.out.println("Punto de Acceso ");
+                    System.out.println(i);
+                    System.out.println(", Posee:  ");
+                    System.out.println(puntosAcceso[i]);
+                }
             }
+        } catch (IllegalArgumentException error) {
+            System.out.println("Entre 0-4");
         }
     }
 
     public boolean modificarPuntoAcceso( int posicion, int nuevaCapacidad, EstadoPuntoAcceso nuevoEstado ){
-        if (puntosAcceso[posicion] != null) {
+        try{
+            if (puntosAcceso[posicion] != null) {
 
-            puntosAcceso[posicion].setCapacidadMaximaPorHora(nuevaCapacidad);
-            puntosAcceso[posicion].setEstado(nuevoEstado);
-            return true;
-        }
+                puntosAcceso[posicion].setCapacidadMaximaPorHora(nuevaCapacidad);
+                puntosAcceso[posicion].setEstado(nuevoEstado);
+                return true;
+            }
         return false;
+        } catch (IllegalArgumentException error) {
+            System.out.println("Entre 0-4");
+            return false;
+        }
     }
 
     public boolean cerrarPuntoAcceso(int posicion){
-        if (puntosAcceso[posicion] != null) {
-            puntosAcceso[posicion] = null;
-            return true;
+        try{
+            if (puntosAcceso[posicion] != null) {
+                puntosAcceso[posicion] = null;
+                return true;
+            }
+            return false;
+        } catch (IllegalArgumentException error) {
+            System.out.println("Entre 0-4");
+            return false;
         }
-        return false;
     }
 
     public int contarPuntosHabilitados(){
@@ -93,17 +107,17 @@ public class Parque {
         }
         return j;
     }
-
-    public PuntoAcceso obtenerPuntoMayorCapacidad(){
-        int j = 0;
-        for (int i = 0; i < limiteAcceso; i++){
+    
+    public PuntoAcceso obtenerPuntoMayorCapacidad() {
+        PuntoAcceso mayor = null;
+        for (int i = 0; i < limiteAcceso; i++) {
             if (puntosAcceso[i] != null) {
-                if (puntosAcceso[i].getCapacidadMaximaPorHora() > puntosAcceso[j].getCapacidadMaximaPorHora()){
-                    j = i;
+                if (mayor == null || puntosAcceso[i].getCapacidadMaximaPorHora() > mayor.getCapacidadMaximaPorHora()) {
+                    mayor = puntosAcceso[i];
                 }
             }
         }
-        return puntosAcceso[j];
+        return mayor;
     }
 
 }

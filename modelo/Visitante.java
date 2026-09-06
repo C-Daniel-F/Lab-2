@@ -8,6 +8,8 @@ public class Visitante{
     private int edad;
     private int cantidadAtraccionesVisitadas;
     private int puntosAcumulados;
+
+    // Pq visitantes tiene un Array de sí mismo???
     private ArrayList<Visitante> visitantes; 
 
     public Visitante(String codigoEntrada, String nombre, int edad, int cantidadAtraccionesVisitadas, int puntosAcumulados){
@@ -54,16 +56,11 @@ public class Visitante{
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
-    public void setEdad(int edad){
-        try{
-            this.edad = edad;
-
-            if (edad < 1){
-                throw new IllegalArgumentException();
-            }
-        } catch (IllegalArgumentException error) {
-            System.out.println("Existe un valor menor a 0");
+    public void setEdad(int edad) {
+        if (edad < 1) {
+            throw new IllegalArgumentException("La edad debe ser mayor a 0.");
         }
+        this.edad = edad;
     }
     public void setCantidadAtraccionesVisitadas(int cantidad){
         try{
