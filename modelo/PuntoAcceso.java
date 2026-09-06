@@ -1,57 +1,77 @@
 package modelo;
-import modelo.EstadoPuntoAcceso;
 
 public class PuntoAcceso {
-
-    private String codigo;
-    private String nombre;	
+    private final String codigo;
+    private String nombre;
     private String ubicacion;
     private int capacidadMaximaPorHora;
     private EstadoPuntoAcceso estado;
 
-    public PuntoAcceso(String codigo, String nombre, String ubicacion, int capacidadMaximaPorHora, EstadoPuntoAcceso estado) {
-        if (capacidadMaximaPorHora <= 0) {
-            throw new IllegalArgumentException("La capacidad debe ser mayor a 0.");
-        }
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.ubicacion = ubicacion;
-        this.capacidadMaximaPorHora = capacidadMaximaPorHora;
-        this.estado = estado;
+    public PuntoAcceso(String codigo, String nombre, String ubicacion,
+            int capacidadMaximaPorHora, EstadoPuntoAcceso estado) {
+        this.codigo = validarTexto(codigo, "El codigo");
+        this.nombre = validarTexto(nombre, "El nombre");
+        this.ubicacion = validarTexto(ubicacion, "La ubicacion");
+        setCapacidadMaximaPorHora(capacidadMaximaPorHora);
+        setEstado(estado);
     }
 
-    // getters
-    public String getCodigo(){
+    public String getCodigo() {
         return codigo;
     }
-    public String getNombre(){
+
+    public String getNombre() {
         return nombre;
     }
-    public String getUbicacion(){
+
+    public String getUbicacion() {
         return ubicacion;
     }
-    public EstadoPuntoAcceso getEstado(){
-        return estado;    
-    }
-    public int getCapacidadMaximaPorHora(){
+
+    public int getCapacidadMaximaPorHora() {
         return capacidadMaximaPorHora;
     }
 
-    //setters
-    public void setNombre(String nombre){
-        this.nombre = nombre;
+    public EstadoPuntoAcceso getEstado() {
+        return estado;
     }
-    public void setUbicacion(String ubicacion){
-        this.ubicacion = ubicacion;
+
+    public void setNombre(String nombre) {
+        this.nombre = validarTexto(nombre, "El nombre");
     }
-    public void setCapacidadMaximaPorHora(int capacidad) {
-        if (capacidad <= 0) {
-            throw new IllegalArgumentException("La capacidad debe ser mayor a 0.");
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = validarTexto(ubicacion, "La ubicacion");
+    }
+
+    public void setCapacidadMaximaPorHora(int capacidadMaximaPorHora) {
+        if (capacidadMaximaPorHora <= 0) {
+            throw new IllegalArgumentException(
+                    "La capacidad maxima debe ser mayor que cero.");
         }
-        this.capacidadMaximaPorHora = capacidad;
+        this.capacidadMaximaPorHora = capacidadMaximaPorHora;
     }
-    public void setEstado(EstadoPuntoAcceso estado){
+
+    public void setEstado(EstadoPuntoAcceso estado) {
+        if (estado == null) {
+            throw new IllegalArgumentException("El estado es obligatorio.");
+        }
         this.estado = estado;
     }
 
+    private static String validarTexto(String valor, String campo) {
+        if (valor == null || valor.trim().isEmpty()) {
+            throw new IllegalArgumentException(campo + " no puede estar vacio.");
+        }
+        return valor.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "Codigo: " + codigo
+                + ", nombre: " + nombre
+                + ", ubicacion: " + ubicacion
+                + ", capacidad por hora: " + capacidadMaximaPorHora
+                + ", estado: " + estado;
+    }
 }
