@@ -1,88 +1,97 @@
 package modelo;
-import java.util.ArrayList;
 
-public class Visitante{
-
-    private String codigoEntrada;
+public class Visitante {
+    private final String codigoEntrada;
     private String nombre;
     private int edad;
     private int cantidadAtraccionesVisitadas;
     private int puntosAcumulados;
 
-    // Pq visitantes tiene un Array de sí mismo???
-    private ArrayList<Visitante> visitantes; 
-
-    public Visitante(String codigoEntrada, String nombre, int edad, int cantidadAtraccionesVisitadas, int puntosAcumulados){
-        this.codigoEntrada = codigoEntrada;
-        this.nombre = nombre;
-
-        try{
-            this.edad = edad;
-            this.cantidadAtraccionesVisitadas = cantidadAtraccionesVisitadas;
-            this.puntosAcumulados = puntosAcumulados;
-
-            if (edad < 1){
-                throw new IllegalArgumentException();
-            }
-            if (cantidadAtraccionesVisitadas < 0){
-                throw new IllegalArgumentException();
-            }
-            if (puntosAcumulados < 0){
-                throw new IllegalArgumentException();
-            }
-        } catch (IllegalArgumentException error) {
-            System.out.println("Existe un valor menor a 0");
-        }
+    public Visitante(String codigoEntrada, String nombre, int edad,
+            int cantidadAtraccionesVisitadas, int puntosAcumulados) {
+        this.codigoEntrada = validarTexto(codigoEntrada, "El codigo de entrada");
+        actualizarDatos(nombre, edad, cantidadAtraccionesVisitadas, puntosAcumulados);
     }
 
-    //getters
-    public String getCodigoEntrada(){
+    public String getCodigoEntrada() {
         return codigoEntrada;
     }
-    public String getNombre(){
+
+    public String getNombre() {
         return nombre;
     }
-    public int getEdad(){
+
+    public int getEdad() {
         return edad;
     }
-    public int getCantidadAtraccionesVisitadas(){
+
+    public int getCantidadAtraccionesVisitadas() {
         return cantidadAtraccionesVisitadas;
     }
-    public int getPuntosAcumulados(){
+
+    public int getPuntosAcumulados() {
         return puntosAcumulados;
     }
 
-    //setters
-    public void setNombre(String nombre){
-        this.nombre = nombre;
+    public void setNombre(String nombre) {
+        this.nombre = validarTexto(nombre, "El nombre");
     }
+
     public void setEdad(int edad) {
-        if (edad < 1) {
-            throw new IllegalArgumentException("La edad debe ser mayor a 0.");
-        }
+        validarEdad(edad);
         this.edad = edad;
     }
-    public void setCantidadAtraccionesVisitadas(int cantidad){
-        try{
-            this.cantidadAtraccionesVisitadas = cantidad;
 
-            if (cantidadAtraccionesVisitadas < 0){
-                throw new IllegalArgumentException();
-            }
-        } catch (IllegalArgumentException error) {
-            System.out.println("Existe un valor menor a 0");
-        }
-    }
-    public void setPuntosAcumulados(int puntos){
-        try{
-            this.puntosAcumulados = puntos;
-            
-            if (puntosAcumulados < 0){
-                throw new IllegalArgumentException();
-            }
-        } catch (IllegalArgumentException error) {
-            System.out.println("Existe un valor menor a 0");
-        }
+    public void setCantidadAtraccionesVisitadas(int cantidad) {
+        validarCantidadNoNegativa(cantidad,
+                "La cantidad de atracciones visitadas");
+        this.cantidadAtraccionesVisitadas = cantidad;
     }
 
+    public void setPuntosAcumulados(int puntos) {
+        validarCantidadNoNegativa(puntos, "Los puntos acumulados");
+        this.puntosAcumulados = puntos;
+    }
+
+    public void actualizarDatos(String nombre, int edad,
+            int cantidadAtraccionesVisitadas, int puntosAcumulados) {
+        String nombreValidado = validarTexto(nombre, "El nombre");
+        validarEdad(edad);
+        validarCantidadNoNegativa(cantidadAtraccionesVisitadas,
+                "La cantidad de atracciones visitadas");
+        validarCantidadNoNegativa(puntosAcumulados, "Los puntos acumulados");
+
+        this.nombre = nombreValidado;
+        this.edad = edad;
+        this.cantidadAtraccionesVisitadas = cantidadAtraccionesVisitadas;
+        this.puntosAcumulados = puntosAcumulados;
+    }
+
+    private static void validarEdad(int edad) {
+        if (edad <= 0) {
+            throw new IllegalArgumentException("La edad debe ser mayor que cero.");
+        }
+    }
+
+    private static void validarCantidadNoNegativa(int cantidad, String campo) {
+        if (cantidad < 0) {
+            throw new IllegalArgumentException(campo + " no puede ser negativa.");
+        }
+    }
+
+    private static String validarTexto(String valor, String campo) {
+        if (valor == null || valor.trim().isEmpty()) {
+            throw new IllegalArgumentException(campo + " no puede estar vacio.");
+        }
+        return valor.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "Codigo: " + codigoEntrada
+                + ", nombre: " + nombre
+                + ", edad: " + edad
+                + ", atracciones visitadas: " + cantidadAtraccionesVisitadas
+                + ", puntos: " + puntosAcumulados;
+    }
 }
