@@ -106,6 +106,10 @@ obtenerMayorCapacidad()
 
 ## 3. ¿Cuál de las propiedades identificadas debe implementarse utilizando un arreglo básico? ¿Qué tipo de objetos almacenará y cuál será su tamaño?
 
+Se debería implementar un:
+
+    private PuntoAcceso[ ] puntosAcceso
+
 Así iniciará con un nuevo acceso fijo de “puntosAcceso = new PuntoAcceso[5] “. donde cada posición guardará un punto de acceso hasta llegar a 5, este siendo su límite.
 
 ## 4. Así iniciará con un nuevo acceso fijo de “puntosAcceso = new PuntoAcceso[5] “. donde cada posición guardará un punto de acceso hasta llegar a 5, este siendo su límite.
